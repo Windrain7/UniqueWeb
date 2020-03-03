@@ -6,7 +6,7 @@ public class Sort {
         int[] array = {3,4,1,2,7,3,23,5};
 //        bubble(array);
 //        insert(array);
-        merge(array,0,array.length);
+        merge(array,0,array.length-1);
         for (int i : array) {
             System.out.printf("%d ",i);
         }
@@ -27,11 +27,11 @@ public class Sort {
     }
 
     public static void insert(int[] array) {
-        int temp;
 
         for (int i=1; i<array.length; i++) {
-            temp = array[i];
-            int j = i-1;
+            int temp = array[i];
+            int j;
+
             for (j=i-1; j >=0 ; j--) {
                 if(array[j] > temp) {
                     array[j+1] = array[j];
@@ -40,45 +40,37 @@ public class Sort {
                     break;
                 }
             }
-            array[j+1] = (j>=0)?array[j+1]:temp;
+            array[j+1] = (j >=0 )?array[j+1]:temp;
         }
     }
 
     public static void merge(int[] array, int start, int end) {
-        if (start == end) {
-            return;
-        } else {
+        if (end > start){
             int middle = (start + end) / 2;
             merge(array,start,middle);
             merge(array,middle+1,end);
             mergeTwo(array,start,middle,end);
         }
-
     }
 
     public static void mergeTwo(int[] array, int start, int middle, int end) {
         int[] temp = new int[end-start+1];
         int i = start, j = middle+1, k = 0;
-        for (; i < middle && j < end;) {
-            if (array[i] < array[k]) {
-                temp[k++] = temp[i++];
+        while (i <= middle && j <= end) {
+            if (array[i] < array[j]) {
+                temp[k++] = array[i++];
             } else {
-                temp[k++] = temp[j++];
+                temp[k++] = array[j++];
             }
         }
-        if (i < middle) {
-            j = middle;
-        } else {
-            middle = end;
+        if (i > middle) {
             i = j;
         }
-        for (; i < middle; i ++) {
+        while (k <= end-start) {
             temp[k++] = array[i++];
         }
-        for (i=start, k =0; i < end;) {
+        for (i=start, k =0; i <= end;) {
             array[i++] = temp[k++];
         }
     }
-
-
 }
