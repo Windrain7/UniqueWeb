@@ -6,32 +6,34 @@ public class Sort {
         int[] array = {3,4,1,2,7,3,23,5};
 //        bubble(array);
 //        insert(array);
-        merge(array,0,array.length-1);
+//        merge(array,0,array.length-1);
+//        quick(array,0,array.length-1);
+        heap(array);
         for (int i : array) {
             System.out.printf("%d ",i);
         }
     }
 
-    public static void bubble(int[] array) {
-        int temp;
+    public static void swap(int[] array, int i, int j) {
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 
+    public static void bubble(int[] array) {
         for (int i=1; i<array.length; i++ ) {
             for (int j=0; j<array.length-i; j++ ) {
                 if (array[j] > array[j+1]) {
-                    temp = array[j];
-                    array[j] = array[j+1];
-                    array[j+1] = temp;
+                    swap(array, j,j+1);
                 }
             }
         }
     }
 
     public static void insert(int[] array) {
-
         for (int i=1; i<array.length; i++) {
             int temp = array[i];
             int j;
-
             for (j=i-1; j >=0 ; j--) {
                 if(array[j] > temp) {
                     array[j+1] = array[j];
@@ -40,7 +42,7 @@ public class Sort {
                     break;
                 }
             }
-            array[j+1] = (j >=0 )?array[j+1]:temp;
+            array[0] = (j >=0 )?array[0]:temp;
         }
     }
 
@@ -71,6 +73,49 @@ public class Sort {
         }
         for (i=start, k =0; i <= end;) {
             array[i++] = temp[k++];
+        }
+    }
+
+    public static void quick(int[] array, int start, int end) {
+        if (start+1 == end || start == end){
+            if (array[start] > array[end]) {
+                swap(array, start, end);
+            }
+        } else {
+            int select = array[start], i = start+1, j;
+            for (j = end; j > i; j--) {
+                if (array[j] < select) {
+                    for (; i < j && array[i] < select; i++);
+                    swap(array, i, j);
+                }
+            }
+            swap(array,i,start);
+            quick(array,start,i-1);
+            quick(array,i+1,end);
+        }
+    }
+
+    public static void heap(int[] array) {
+        buildHeap(array,array.length);
+        for (int i = array.length-1; i > 0; i--) {
+            swap(array,0, i);
+            buildHeap(array,i);
+        }
+    }
+
+    public static void buildHeap(int[] array,int length) {
+        if (length > 1) {
+            for (int i = (length-2)/2; i >= 0; i --) {
+                int left = 2*i + 1;
+                int right = 2*i + 2;
+                int max = right;
+                if (max >= length || array[left] > array[right]) {
+                    max = left;
+                }
+                if (array[i] < array[max]) {
+                    swap(array, i ,max);
+                }
+            }
         }
     }
 }
