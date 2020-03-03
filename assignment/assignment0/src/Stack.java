@@ -40,6 +40,10 @@ public class Stack {
         return length==0;
     }
 
+    public int getLength() {
+        return length;
+    }
+
     static class Node {
         int data;
         Node pre;
