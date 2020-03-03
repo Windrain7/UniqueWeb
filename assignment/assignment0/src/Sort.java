@@ -99,7 +99,7 @@ public class Sort {
         buildHeap(array,array.length);
         for (int i = array.length-1; i > 0; i--) {
             swap(array,0, i);
-            buildHeap(array,i);
+            adjustHeap(array,i);
         }
     }
 
@@ -116,6 +116,22 @@ public class Sort {
                     swap(array, i ,max);
                 }
             }
+        }
+    }
+
+    public static void adjustHeap(int[] array, int length) {
+        for (int i = 0, left = 2*i+1, right = 2*i+2; left < length; left = 2*i+1, right = 2*i+2) {
+            int max = right;
+            if (max >= length || array[left] > array[right]) {
+                max = left;
+            }
+            if (array[i] < array[max]) {
+                swap(array, i ,max);
+                i = max;
+            } else {
+                break;
+            }
+
         }
     }
 }
