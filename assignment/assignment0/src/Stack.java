@@ -5,22 +5,8 @@ public class Stack {
     private Node bottom;
     private int length;
 
-    public static void main(String[] args) {
-        Stack stack = new Stack();
-        for (int i=0; i<3; i++) {
-            Scanner scanner = new Scanner(System.in);
-            int data = scanner.nextInt();
-            Node node = new Node(data);
-            stack.push(node);
-        }
-        while (!stack.isEmpty()) {
-            Node node = stack.pop();
-            System.out.println(node.data);
-        }
-
-    }
-
-    public void push(Node node) {
+    public void push(TreeNode treeNode) {
+        Node node = new Node(treeNode);
         if (length == 0) {
             bottom = node;
         }
@@ -29,15 +15,19 @@ public class Stack {
         length += 1;
     }
 
-    public Node pop() {
+    public TreeNode pop() {
         Node node = top;
         top = top.pre;
         length -=1;
-        return node;
+        return node.treeNode;
     }
 
     public Boolean isEmpty() {
         return length==0;
+    }
+
+    public TreeNode getTop() {
+        return top.treeNode;
     }
 
     public int getLength() {
@@ -45,11 +35,11 @@ public class Stack {
     }
 
     static class Node {
-        int data;
+        TreeNode treeNode;
         Node pre;
 
-        Node(int data) {
-            this.data = data;
+        Node(TreeNode treeNode) {
+            this.treeNode = treeNode;
         }
         Node() {}
     }
