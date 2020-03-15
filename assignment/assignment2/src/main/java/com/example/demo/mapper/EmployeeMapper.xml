@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace用于绑定接口 -->
+<mapper namespace="com.example.demo.mapper.EmployeeMapper">
+    <!-- 用用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.model.Employee" >
+        <!-- column代表数据库列名，property代表实体类属性名 -->
+        <result column="empno" property="no"/>
+        <result column="ename" property="name"/>
+        <result column="job" property="job"/>
+        <result column="sal" property="salary"/>
+    </resultMap>
+    <!-- 查询名字记录sql -->
+    <select id="selectEmployeeByName" parameterType="String" resultMap="BaseResultMap">
+        SELECT * FROM emp1 WHERE ename = #{name}
+    </select>
+
+    <select id="getAllEmployee" resultMap="BaseResultMap">
+        SELECT * FROM emp1
+    </select>
+</mapper>
