@@ -14,13 +14,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
-    //    ServerSocket ss;
-//    ThreadPoolExecutor pool;
-//    ArrayList<PrintWriter> printWriters;
-//    Connection connection;
     public static void main(String[] args) {
         try {
-            ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+            ThreadPoolExecutor pool = (ThreadPoolExecutor) Executors.newFixedThreadPool(16);
             ServerSocket ss = new ServerSocket(7000);
             HashMap<String, PrintWriter> onlines = new HashMap<>();//记录所有客户端输出流和名字
             Class.forName("com.mysql.jdbc.Driver");
@@ -29,10 +25,11 @@ public class Server {
             while (true) {
                 Socket s = ss.accept();
                 BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
-                if (br.readLine().equals("log")) {
-                    pool.submit(new Worker(s,onlines,connection));
-                } else if (br.readLine().equals("register")) {
-                    pool.submit(new RegisterWorker(connection, s));
+                String order = br.readLine();
+                if (order.equals("log")) {
+                    pool.submit(new Worker(s, br, onlines, connection));
+                } else if (order.equals("register")) {
+                    pool.submit(new RegisterWorker(s, br, connection));
                 }
 
             }

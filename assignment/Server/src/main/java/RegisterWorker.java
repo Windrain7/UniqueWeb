@@ -9,25 +9,33 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RegisterWorker implements Runnable{
-    Connection connection;
     Socket socket;
+    BufferedReader br;
+    Connection connection;
 
-    public RegisterWorker(Connection connection, Socket socket) {
-        this.connection = connection;
+    public RegisterWorker(Socket socket, BufferedReader br, Connection connection) {
         this.socket = socket;
+        this.br = br;
+        this.connection = connection;
     }
 
     @Override
     public void run() {
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter writer = new PrintWriter(socket.getOutputStream(),true);
-            String id = br.readLine();
-            String name = br.readLine();
-            String password = br.readLine();
             System.out.println("一个客户端试图注册");
+            String clientRequest = br.readLine();
+            System.out.println(clientRequest);
+            String strings[] = clientRequest.split(" ",3);
+            String id = strings[0];
+            System.out.println(id);
+            String name = strings[1];
+            System.out.println(name);
+            String password = strings[2];
+            System.out.println(password);
             writer.println(register(id,name,password));
             socket.close();
+            System.out.println("注册断开");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,9 +53,11 @@ public class RegisterWorker implements Runnable{
             ps.setString(1,id);
             ps.setString(2,name);
             ps.setString(3,password);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("插入数据失败");
             e.printStackTrace();
+            return "注册失败";
         }
         return "注册成功";
     }

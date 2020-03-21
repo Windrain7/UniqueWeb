@@ -10,23 +10,25 @@ import java.util.HashMap;
 
 public class Worker implements Runnable {
     Socket s;
+    BufferedReader br;
     HashMap<String, PrintWriter> onlines = new HashMap<>();//记录所有客户端输出流和名字
     Connection connection;
 
-    Worker(Socket socket, HashMap<String, PrintWriter> os, Connection connection) {
+    Worker(Socket socket, BufferedReader br, HashMap<String, PrintWriter> os, Connection connection) {
         s = socket;
+        this.br = br;
         this.onlines = os;
         this.connection = connection;
     }
     @Override
     public void run() {
         try {
-            InputStream is = s.getInputStream();
             PrintWriter writer = new PrintWriter(s.getOutputStream(),true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             System.out.println("一个客户端试图登录");
             String id = br.readLine();
+            System.out.println(id);
             String password = br.readLine();
+            System.out.println(password);
             String name;
             //如果成功，进行服务
             if ((name = check(id,password,writer)) != null) {
@@ -43,7 +45,7 @@ public class Worker implements Runnable {
                 }
             }
             onlines.remove(name);
-            is.close();
+            br.close();
             writer.close();
             s.close();
         } catch (Exception e) {
@@ -91,6 +93,7 @@ public class Worker implements Runnable {
                 return null;
             }
         } catch (SQLException e) {
+            System.out.println("服务器查询失败");
             e.printStackTrace();
         }
         return name;
