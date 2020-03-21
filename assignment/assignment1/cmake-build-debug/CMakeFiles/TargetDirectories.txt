@@ -1,0 +1,3 @@
+D:/UniqueWeb/assignment/assignment1/cmake-build-debug/CMakeFiles/assignment1.dir
+D:/UniqueWeb/assignment/assignment1/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/UniqueWeb/assignment/assignment1/cmake-build-debug/CMakeFiles/rebuild_cache.dir

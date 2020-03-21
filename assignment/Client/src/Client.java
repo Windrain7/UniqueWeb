@@ -10,8 +10,6 @@ public class Client {
     private JTextArea record;
     private JTextArea message;
     private Socket socket;
-
-    private String host;
     private String name;
     private PrintWriter writer;
     private BufferedReader brNet;
@@ -165,12 +163,6 @@ public class Client {
                         writer.println("register");
                         writer.println(rId + " " + rName + " " + rPassword);
                         System.out.println(rId + " " + rName + " " + rPassword);
-//                        writer.println(rId);
-//                        System.out.println(rId);
-//                        writer.println(rName);
-//                        System.out.println(rName);
-//                        writer.println(rPassword);
-//                        System.out.println(rPassword);
                         String response = brNet.readLine();
                         if (response.equals("注册成功")) {
                             JOptionPane.showMessageDialog(null,response,"成功", JOptionPane.INFORMATION_MESSAGE);
