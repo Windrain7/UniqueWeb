@@ -55,7 +55,7 @@ public class Client {
                     //先在本地检查一下
                     String logHost = host.getText();
                     String logId = id.getText();
-                    String logPw = password.getText();
+                    String logPw = new String(password.getPassword());
                     if ( logId.length() == 0 || logPw.length() == 0 || logHost.length() == 0) {
                         JOptionPane.showMessageDialog(null, "密码或账号或地址为空", "错误", JOptionPane.ERROR_MESSAGE);
                     } else {
@@ -144,8 +144,8 @@ public class Client {
         register.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String rPassword = password.getText();
-                String rPassword1 = password1.getText();
+                String rPassword = new String(password.getPassword());
+                String rPassword1 = new String(password1.getPassword());
                 String rName = name.getText();
                 String rId = id.getText();
                 String rHost = host.getText();
